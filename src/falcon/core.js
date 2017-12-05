@@ -18,33 +18,8 @@ function falcon(selector, context) {
 
 falcon.prototype = {
     constructor: falcon,
-    verson: 0.1,
-    init: function(selector, context) {
-        //处理一些无效情况,如selector为"",null,false等
-        if (!selector) {
-            return this;
-        }
-
-        if (typeof selector === 'string') {
-            //处理字符串选择器
-
-        } else if (selector.nodeType) {
-            //处理dom元素
-            this[0] = selector;
-            this.length = 1;
-            return this;
-
-        } else if (falcon.isFunction(selector)) {
-            //处理ready方法
-
-        }
-
-        return this;
-    }
+    verson: 0.1
 }
-
-//修正init原型指向,确保init实例对象可以访问falcon的原型
-falcon.prototype.init.prototype = falcon.prototype;
 
 //基础方法,为其他模块提供扩展falcon的能力
 falcon.mixin = falcon.prototype.mixin = function() {
@@ -109,8 +84,6 @@ falcon.mixin = falcon.prototype.mixin = function() {
 
     return target;
 }
-
-
 
 //为falcon扩展一些静态方法
 falcon.mixin({

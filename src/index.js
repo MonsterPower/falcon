@@ -1,4 +1,5 @@
-var falcon = require('./falcon/core');
+var falcon = require('./falcon/main');
+
 
 window.a = { name: 'test', info: { age: 12 } };
 window.b = { info: { sex: '男', addr: '北京通州' } };
