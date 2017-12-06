@@ -7,6 +7,18 @@
  * @desc [description]
  */
 
+//职责链模式扩展
+Function.prototype.after=function(fn){
+    var self=this;
+    return function(){
+        var ret=self.apply(this,arguments);
+        if(ret==='next'){
+            return fn.apply(this,arguments);
+        }
+        return ret;
+    }
+}
+
 module.exports = {
     typesMap: {
         '[object Boolean]': 'boolean',

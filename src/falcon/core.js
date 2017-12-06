@@ -50,7 +50,7 @@ falcon.mixin = falcon.prototype.mixin = function() {
     }
 
     for (; i < length; i++) {
-        //排除null或undefined等 这里jquery写的(source=arguments[i]) != null,鄙人觉得没必要,会不会有兼容问题?
+        //排除null或undefined等 这里jquery写的(source=arguments[i]) != null,在下觉得可以精简,不知会不会有兼容问题?
         if ((source = arguments[i])) {
             for (prop in source) {
                 src = target[prop];
@@ -75,7 +75,7 @@ falcon.mixin = falcon.prototype.mixin = function() {
                     //递归复制子属性
                     target[prop] = falcon.mixin(deep, temp, copy);
                 } else {
-                    //jquery的extend的处理是不复制undefined但是复制null,鄙人认为应该都复制,避免丢失属性
+                    //jquery的extend的处理是不复制undefined但是复制null,在下认为应该都复制,避免丢失属性
                     target[prop] = copy;
                 }
             }
