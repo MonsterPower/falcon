@@ -8,12 +8,12 @@
  */
 
 //职责链模式扩展
-Function.prototype.after=function(fn){
-    var self=this;
-    return function(){
-        var ret=self.apply(this,arguments);
-        if(ret==='next'){
-            return fn.apply(this,arguments);
+Function.prototype.after = function(fn) {
+    var self = this;
+    return function() {
+        var ret = self.apply(this, arguments);
+        if (ret === 'next') {
+            return fn.apply(this, arguments);
         }
         return ret;
     }
@@ -37,9 +37,9 @@ module.exports = {
     toString: Object.prototype.toString,
     getProto: Object.getPrototypeOf,
     hasOwn: Object.hasOwnProperty,
-    fnToString: Object.hasOwnProperty.toString,
+    fnToString: Function.prototype.toString,
     //Object.prototype.toString.call(Object)=>"[object Function]"
-    //Function.prototype.toString.call(Object)=>unction Object() { [native code] }
+    //Function.prototype.toString.call(Object)=>function Object() { [native code] }
     //so 这个变量代表的就是Object构造函数,用于判断对象的构造函数是否是Object构造函数
-    ObjectFunctionString: Object.hasOwnProperty.toString.call(Object)
+    ObjectFunctionString: Function.prototype.toString.call(Object)
 }

@@ -118,6 +118,22 @@ falcon.mixin({
         var type = falcon.type(obj);
         //包括字符串数字情况,后表达式为了过滤string情况
         return (type === 'number' || type === 'string') && !isNaN(obj - parseFloat(obj))
+    },
+    //data为html字符串,context上下文即document,keepScripts是否保持js代码(script)
+    //返回对象世一个dom数组
+    parseHTML: function(data, context, keepScripts) {
+        var base, parsed, scripts;
+        if (falcon.type(data) !== 'string') {
+            return [];
+        }
+        //兼容第二参数不传情况
+        if (falcon.type(context) === 'boolean') {
+            keepScripts = context;
+            context = false;
+        }
+        //如果上下文没传(jQuery这里考虑了xml的情况?document.implementation.createHTMLDocument("")?)
+        //鉴于json当道,xml暂不考虑
+        context = context || document;
     }
 });
 
