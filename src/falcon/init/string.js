@@ -68,7 +68,9 @@ falcon.mixin({
             nodes = [],
             i = 0,
             len = elems.length;
-
+        var rtagName = /<([\w:-]+)/;
+        var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi;
+        var rhtml = /<|&#?\w+;/;
         for (; i < len; i++) {
             elem = elems[i];
             if (elem) {
@@ -76,16 +78,31 @@ falcon.mixin({
                 if (falcon.type(elem) === 'object') {
                     //如果elem是一个对象或者DOM元素
                     falcon.merge(nodes, elem.nodeType ? [elem] : elem)
-                } else if (1) {
-                    //如果不是html标签,创建文本对象
+                } else if (!rhtml.test(elem)) {
+                    //如果不是html标签,创建文本对象,考虑了< &lt; &#60; > &#62; &gt;
                     nodes.push(context.createTextNode(elem))
                 } else {
                     //如果是html标签
                     tmpDiv = tmpDiv || fragment.appendChild(context.createElement('div'));
+                    // 获得 标签 类型，处理特殊情况
+                    tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
+                    wrap = wrapMap[tag] || wrapMap._default;
+                    //将类似<div class="test"/>替换成<div class="test"></div>对一些xhtml进行合法修复
+                    tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2];
+                    j = wrap[0];
+                    while (j--) {
+                        tmp = tmp.lastChild;
+                    }
+                    jQuery.merge(nodes, tmp.childNodes);
 
                 }
             }
         }
+        i = 0;
+        while ((elem = nodes[i++])) {
+            fragment.appendChild(elem)
+        }
+        return fragment;
     }
 });
 
